@@ -16,12 +16,16 @@ client.connect(port, address, function() {
 });
 
 client.on('data', function(data) {
+    
+    // strategy 1. Buy BOND at $999 and sell at $1001
     var trybuy = '{"type": "add", "order_id": '+ buyid.toString()+', "symbol": "BOND", "dir": "BUY", "price": 999, "size": 100}\n';
     var trysell = '{"type": "add", "order_id": '+ sellid.toString() +', "symbol": "BOND", "dir": "SELL", "price": 1001, "size": 100}\n'
         client.write(trybuy);
         client.write(trysell);
         buyid++;
         sellid++;
+    
+    // storing into data with company name, highest bid, and lowest offer. 
     var strData = data.toString('utf-8')
     if (strData.indexOf('"type":"book"') !== -1) {
         var buyIndex = strData.indexOf('"buy"');
@@ -47,6 +51,7 @@ client.on('data', function(data) {
     }
 });
 
+// strategy 2. price prdiction (mutual fund prediction) 
 function strategy2() {
     var rightSide = (2*(portFolio.AAPL[0] + portFolio.AAPL[1])/2 +
                     3*(portFolio.MSFT[0] + portFolio.MSFT[1])/2 +
@@ -94,7 +99,7 @@ function strategy2() {
     strid++;
 }
 
-
+// strategy 3 Arbitrage
 function strategy3() {
     var rightSide = (portFolio.NOKFH[0] + portFolio.NOKFH[1])/2
     console.log(rightSide);
