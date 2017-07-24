@@ -29,36 +29,6 @@ client.on('data', function(data) {
         var symbolIndex = strData.indexOf('"symbol"');
         var company = strData.substring(symbolIndex+10,symbolIndex+14);
         if (company === 'XLK"') {
-            var net = require("net");
-            var client = new net.Socket();
-            var port = 25000;
-            var address = '1.1.1.1';
-            var buyid = 0;
-            var sellid = 0;
-            var strid = 10;
-
-            var portFolio={"GOOG":[0,0], "MSFT":[0,0],"AAPL":[0,0],"XLK":[0,0],"NOKUS":[0,0], "NOKFH":[0,0]};
-            client.connect(port, address, function() {
-                console.log('Connected');
-                var helloAgain = '{"type":"hello","team":"MOMOGOGO"}\n';
-                client.write(helloAgain);
-                console.log("after write")
-});
-
-client.on('data', function(data) {
-    var trybuy = '{"type": "add", "order_id": '+ buyid.toString()+', "symbol": "BOND", "dir": "BUY", "price": 999, "size": 100}\n';
-    var trysell = '{"type": "add", "order_id": '+ sellid.toString() +', "symbol": "BOND", "dir": "SELL", "price": 1001, "size": 100}\n'
-        client.write(trybuy);
-        client.write(trysell);
-        buyid++;
-        sellid++;
-    var strData = data.toString('utf-8')
-    if (strData.indexOf('"type":"book"') !== -1) {
-        var buyIndex = strData.indexOf('"buy"');
-        var sellIndex = strData.indexOf('"sell"');
-        var symbolIndex = strData.indexOf('"symbol"');
-        var company = strData.substring(symbolIndex+10,symbolIndex+14);
-        if (company === 'XLK"') {
             company = "XLK";
         } else if (company === 'NOKU') {
             company = "NOKUS"
